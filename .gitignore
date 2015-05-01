@@ -1,0 +1,6 @@
+*.hi
+*.o
+*.xml
+test*
+output
+Parser
