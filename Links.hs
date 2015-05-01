@@ -39,7 +39,7 @@ parseLinks = map makePair . filter filterIrrelevant
           filterIrrelevant (Page t _) = not $ "Template:" `T.isPrefixOf` t
                                          || "Wikipedia:" `T.isPrefixOf` t
                                          || "MediaWiki:" `T.isPrefixOf` t
-
+{-
 main :: IO ()
 main = do
     pages <- getPages "../data/simple.xml"
@@ -48,3 +48,4 @@ main = do
           print title
           print page
 
+-}
