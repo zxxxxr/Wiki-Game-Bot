@@ -88,8 +88,11 @@ parseWiki = tagName "mediawiki" ignoreAttrs $ \() -> do
     many $ tagNoAttr "page" parsePage
 
 
+getPages file = runResourceT $ parseFile def file $$
+    force "wiki required" parseWiki
+
+
 main = do
-    pages <- runResourceT $ parseFile def "../data/simple.xml" $$ force
-                "wiki required" parseWiki
+    pages <- getPages "../data/simple.xml"
     print pages
 
