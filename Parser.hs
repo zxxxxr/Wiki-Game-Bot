@@ -91,8 +91,9 @@ parseWiki = tagName "mediawiki" ignoreAttrs $ \() -> do
 getPages file = runResourceT $ parseFile def file $$
     force "wiki required" parseWiki
 
-
+{-
 main = do
     pages <- getPages "../data/simple.xml"
     print pages
 
+-}
