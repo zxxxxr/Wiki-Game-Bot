@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall #-}
 
-module WikiGame where
+module Links where
 
 import Parser
 
