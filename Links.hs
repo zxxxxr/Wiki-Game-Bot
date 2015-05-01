@@ -33,9 +33,9 @@ pruneLinks = map cap . filter ((/=) "") . map trans . filter predi . map trunc
                     . head . C.split '|'
           cap bs   = toUpper (C.head bs) `C.cons` BS.drop 1 bs
 
-parseLinks :: [Page] -> [(Text, [BS.ByteString])]
+parseLinks :: [Page] -> [(BS.ByteString, [BS.ByteString])]
 parseLinks = map makePair . filter filterIrrelevant
-    where makePair (Page t p) = (t, pruneLinks $ extractLinks p)
+    where makePair (Page t p) = (encodeUtf8 t, pruneLinks $ extractLinks p)
           filterIrrelevant (Page t _) = not $ "Template:" `T.isPrefixOf` t
                                          || "Wikipedia:" `T.isPrefixOf` t
                                          || "MediaWiki:" `T.isPrefixOf` t

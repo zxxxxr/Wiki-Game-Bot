@@ -1,12 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RankNTypes #-}
+{-# OPTIONS_GHC -Wall #-}
 
 module Parser where
 
 import Control.Monad.Trans.Resource
-import Data.Conduit (($$), ConduitM, Consumer)
-import Data.Text (Text, unpack)
+import Data.Conduit (($$), Consumer)
+import Data.Text (Text, pack)
 import Data.XML.Types (Event)
+import Filesystem.Path.CurrentOS (fromText)
 import Text.XML (Name)
 import Text.XML.Stream.Parse hiding (parseText)
 
@@ -36,7 +38,7 @@ skipCurrentAndChildren :: MonadThrow m => Name -> Consumer Event m ()
 skipCurrentAndChildren name = do
     _ <- tagName name ignoreAttrs $
          \() -> many $ tag
-                (\x -> Just ())
+                (\_ -> Just ())
                 (\() -> ignoreAttrs)
                 (\() -> content)
     return ()
@@ -88,7 +90,8 @@ parseWiki = tagName "mediawiki" ignoreAttrs $ \() -> do
     many $ tagNoAttr "page" parsePage
 
 
-getPages file = runResourceT $ parseFile def file $$
+getPages :: String -> IO [Page]
+getPages file = runResourceT $ parseFile def (fromText $ pack file) $$
     force "wiki required" parseWiki
 
 {-
