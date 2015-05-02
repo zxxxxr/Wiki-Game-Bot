@@ -59,14 +59,14 @@ mbfs startK endK m =
                   let Just children = M.lookup node m in
                   if node == endK then hd
                   else traverse (newq children) (newseen children)
-                  where newq children = foldr (\bs q -> if elem bs seen
+                  where newq = foldr (\bs q -> if bs `elem` seen
                                                         then q
                                                         else q ++ [hd ++ [bs]])
-                                               tl children
-                        newseen children = foldr (\bs s -> if elem bs seen
+                                               tl
+                        newseen = foldr (\bs s -> if bs `elem` seen
                                                            then s
                                                            else bs : s)
-                                               seen children
+                                               seen
 
 
 getMapShortestPath :: ByteString

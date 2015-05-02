@@ -24,7 +24,7 @@ extractLinks page = getAllTextMatches $ page_bs =~ pattern
    3. Clean up the title to reflect redirects
 -}
 pruneLinks :: [BS.ByteString] -> [BS.ByteString]
-pruneLinks = map cap . filter ((/=) "") . map trans . filter predi . map trunc
+pruneLinks = map cap . filter ("" /=) . map trans . filter predi . map trunc
     where trunc x  = BS.drop 2 $ BS.take (BS.length x - 2) x
           predi bs = not $ "File:"  `BS.isPrefixOf` bs
                            || "Image:" `BS.isPrefixOf` bs
